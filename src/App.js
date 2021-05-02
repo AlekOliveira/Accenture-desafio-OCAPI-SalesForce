@@ -2,18 +2,35 @@ import './App.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
 import CrudForm from './components/CrudForm';
+import { useState } from 'react';
 
 function App() {
+  const [email, setEmail] = useState('');
+
   return (
     <BrowserRouter>
       <Switch>
         <Route 
-          path='/login'
-          component={LoginForm}
+          exact path='/'
+          render={(props) => (
+            <LoginForm {...props} 
+            setEmail={setEmail} />
+          )}
         />
         <Route 
           path='/cadastro'
-          component={CrudForm}
+          render={(props) => (
+            <CrudForm {...props} 
+            newProfile={true} />
+          )}
+        />
+        <Route 
+          path='/perfil'
+          render={(props) => (
+            <CrudForm {...props} 
+            newProfile={false}
+            email={email} />
+          )}
         />
       </Switch>
     </BrowserRouter>

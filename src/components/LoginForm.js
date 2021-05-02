@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form";
 import auth from '../services/auth';
 import dataApi from '../services/dataApi';
 
-export default function CrudForm(props) {
+export default function LoginForm(props) {
 
   const { register, handleSubmit } = useForm();
   const [token, setToken] = useState([]);
+  const setEmail = props.setEmail;
 
   useEffect(() => {
     auth.getToken().then(res => {
@@ -54,7 +55,8 @@ export default function CrudForm(props) {
       }
     }).then(res => {
       if(res.data.hits) {
-        props.history.push('/cadastro');      
+        setEmail(res.data.hits[0].key_value_string);
+        props.history.push('/perfil');     
       }
       else
       {
@@ -68,8 +70,7 @@ export default function CrudForm(props) {
   }
 
   function cadastrar() {
-    // props.history.push('/cadastro');
-    alert('teste');
+    props.history.push('/cadastro');
   }
 
   return (    
@@ -77,7 +78,7 @@ export default function CrudForm(props) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <input type="text" placeholder="Email" name="email" {...register('email')} />
         <input type="password" placeholder="Senha" name="senha" {...register('senha')} />
-        {/* <input type="submit" /> */}
+        
         <button type="submit">Login!</button>      
       </form>
     

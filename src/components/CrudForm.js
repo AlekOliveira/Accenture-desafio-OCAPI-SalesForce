@@ -3,11 +3,12 @@ import { useForm } from "react-hook-form";
 import auth from '../services/auth';
 import dataApi from '../services/dataApi';
 
-export default function CrudForm() {
+export default function CrudForm(props) {
 
   const { register, handleSubmit } = useForm();
-
   const [token, setToken] = useState([]);
+  const [operacao, setOperacao] = useState('insert');
+  const email = props.email;
 
   useEffect(() => {
     auth.getToken().then(res => {
@@ -68,7 +69,7 @@ export default function CrudForm() {
     );
   }
   
-  function remove(emailUsr) {
+  function destroy(emailUsr) {
     dataApi.delete('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/' + emailUsr,
       {
         headers: {
@@ -93,14 +94,24 @@ export default function CrudForm() {
   }
 
   const onSubmit = (formData) => {
-    //insert(formData);
-    //update(formData, 'new@email');
-    //remove('new@email');
-    //show('alexandre.cardozo1@gmail.com');
+    switch (operacao) {
+      case 'insert':  
+        insert(formData);
+      break;
+      case 'update':
+        update(formData, email);
+      break;
+      case 'destroy': 
+        destroy(email);
+    }
+    
+
+    // show('alexandre.cardozo1@gmail.com');
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
       <h3>1 - Informações pessoais</h3>
       <input type="text" placeholder="Nome e sobrenome" name="nome" {...register('nome')} />
       <input type="text" placeholder="Celular" name="fone" {...register('fone')} />
@@ -126,9 +137,17 @@ export default function CrudForm() {
         <input type="radio" value="Redes Sociais (Facebook, Instagram, etc.)" name="indicacao" {...register('indicacao')} /> Redes Sociais (Facebook, Instagram, etc.)
         <input type="radio" value="Recebi um e-mail" name="indicacao" {...register('indicacao')} /> Recebi um e-mail
         <input type="radio" value="TV ou rádio" name="indicacao" {...register('indicacao')} /> TV ou rádio
-      </div>
-
-      <input type="submit" />
-    </form>
+      </div>      
+      {
+        props.newProfile ?
+        <input id="btSubmit" type="submit" />
+        :
+        <div>
+          <button onClick={()=>setOperacao('update')} type="submit">Atualizar</button>
+          <button onClick={()=>setOperacao('destroy')} type="submit">Excluir Conta</button>
+        </div>
+      }      
+    </form>        
+    </>
   );
 }
