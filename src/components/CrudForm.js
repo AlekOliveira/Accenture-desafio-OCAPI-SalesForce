@@ -1,12 +1,41 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 
+// import dataApi from '../services/dataApi';
+//import auth from '../services/auth';
+
 export default function CrudForm() {
 
   const {register, handleSubmit} = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
+
+    /**
+     * validar se existe
+     *       se sim, criar novo registro
+     * 
+     * se nao, carregar dados da tela e permitir alteração ou remoção
+     */
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    myHeaders.append("Authorization", "Basic Z3J1cG8xLnNhbGVzZm9yY2VAZ21haWwuY29tOkdydXBvMUFjY2VudHVyZTIwMjE6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFh");
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("grant_type", "urn:demandware:params:oauth:grant-type:client-id:dwsid:dwsecuretoken");
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: 'follow'
+    };
+
+    fetch("https://zzrl-034.sandbox.us01.dx.commercecloud.salesforce.com/dw/oauth2/access_token?client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
   }
 
   return(
@@ -33,13 +62,17 @@ export default function CrudForm() {
 
       <h3>3 - Como ficou sabendo sobre nós?</h3>
       <div>
-        <input type="radio" value="1" name="indicacao" {...register('indicacao')}/> Por indicação de amigos ou conhecidos
-        <input type="radio" value="2" name="indicacao" {...register('indicacao')}/> Redes Sociais (Facebook, Instagram, etc.)
-        <input type="radio" value="3" name="indicacao" {...register('indicacao')}/> Recebi um e-mail
-        <input type="radio" value="4" name="indicacao" {...register('indicacao')}/> TV ou rádio   
+        <input type="radio" value="Por indicação de amigos ou conhecidos" name="indicacao" {...register('indicacao')}/> Por indicação de amigos ou conhecidos
+        <input type="radio" value="Redes Sociais (Facebook, Instagram, etc.)" name="indicacao" {...register('indicacao')}/> Redes Sociais (Facebook, Instagram, etc.)
+        <input type="radio" value="Recebi um e-mail" name="indicacao" {...register('indicacao')}/> Recebi um e-mail
+        <input type="radio" value="TV ou rádio" name="indicacao" {...register('indicacao')}/> TV ou rádio   
       </div>
       
       <input type="submit"/>
     </form>
   );
 }
+
+// Right click on desktop, add new shortcut.
+// Add the target as "[PATH_TO_CHROME]\chrome.exe" --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp.
+// Click OK. 

@@ -1,12 +1,16 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 
-export default function CrudForm() {
+export default function CrudForm(props) {
 
   const {register, handleSubmit} = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
+    
+
+    //react router example
+    //props.history.push('/dados');
   }
 
   return(
