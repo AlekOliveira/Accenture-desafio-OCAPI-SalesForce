@@ -1,28 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
-// import dataApi from '../services/dataApi';
+import dataApi from '../services/dataApi';
 import auth from '../services/auth';
 
-
-export default function CrudForm() {  
+export default function CrudForm() {
 
   const { register, handleSubmit } = useForm();
   const [token, setToken] = useState([]);
-  
-  useEffect(() =>{
+
+  useEffect(() => {
     auth.getToken().then(res => {
-      setToken(JSON.stringify(res.data));
-    }) 
-  }, []) 
+      setToken((res.data.access_token));
+    })
+  }, [])
 
-  const onSubmit = (data) => {
-    console.log(token);
-
+  const onSubmit = (formData) => {
+    console.log(formData);
+    console.log(token); 
     
-   
-    
+    const data = JSON.stringify({
+      "c_cep": formData.cep,
+      "c_complemento": formData.complemento,
+      "c_cpf": formData.cpf,
+      "c_fone": formData.fone,
+      "c_genero": formData.genero,
+      "c_indicacao": formData.indicacao,
+      "c_nascimento": "2021-01-01",
+      "c_nome": formData.nome,
+      "c_numRua": formData.numRua,
+      "c_rua": formData.rua,
+      "c_senha": formData.senha
+    });
 
-
+    dataApi.put('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/'+formData.email, 
+      data,
+      {
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    //.then(function (response) {
+    //     console.log(JSON.stringify(response.data));
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
   }
 
   return (
@@ -59,4 +83,3 @@ export default function CrudForm() {
     </form>
   );
 }
-
