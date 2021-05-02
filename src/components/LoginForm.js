@@ -10,7 +10,7 @@ export default function CrudForm(props) {
     
 
     //react router example
-    //props.history.push('/dados');
+    props.history.push('/dados');
   }
 
   return(

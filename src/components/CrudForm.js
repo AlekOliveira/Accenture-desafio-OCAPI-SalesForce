@@ -14,10 +14,7 @@ export default function CrudForm() {
     })
   }, [])
 
-  const onSubmit = (formData) => {
-    console.log(formData);
-    console.log(token); 
-    
+  function insert(formData) {
     const data = JSON.stringify({
       "c_cep": formData.cep,
       "c_complemento": formData.complemento,
@@ -25,7 +22,7 @@ export default function CrudForm() {
       "c_fone": formData.fone,
       "c_genero": formData.genero,
       "c_indicacao": formData.indicacao,
-      "c_nascimento": "2021-01-01",
+      "c_nascimento": formData.nascimento.split('/').reverse().join('-'),
       "c_nome": formData.nome,
       "c_numRua": formData.numRua,
       "c_rua": formData.rua,
@@ -41,17 +38,70 @@ export default function CrudForm() {
         }
       }
     );
-    //.then(function (response) {
-    //     console.log(JSON.stringify(response.data));
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+  }
+
+  function update(formData, emailUsr) {
+    const data = JSON.stringify({
+      "c_cep": formData.cep,
+      "c_complemento": formData.complemento,
+      "c_cpf": formData.cpf,
+      "c_fone": formData.fone,
+      "c_genero": formData.genero,
+      "c_indicacao": formData.indicacao,
+      "c_nascimento": formData.nascimento.split('/').reverse().join('-'),
+      "c_nome": formData.nome,
+      "c_numRua": formData.numRua,
+      "c_rua": formData.rua,
+      "c_senha": formData.senha,
+      "c_email": formData.email
+    });
+
+    dataApi.patch('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/'+emailUsr, 
+      data,
+      {
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+  }
+
+  function remove(emailUsr) {
+    dataApi.delete('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/'+emailUsr,
+      {
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+  }
+
+  function show(emailUsr) {
+    dataApi.get('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/'+emailUsr,
+      {
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }
+    ).then(res => {
+      console.log(res.data);
+    });
+  }
+
+
+  const onSubmit = (formData) => {
+
+    //insert(formData);
+    //update(formData, 'new@email');
+    //remove('new@email');
+    show('alexandre.cardozo1@gmail.com');
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-
       <h3>1 - Informações pessoais</h3>
       <input type="text" placeholder="Nome e sobrenome" name="nome" {...register('nome')} />
       <input type="text" placeholder="Celular" name="fone" {...register('fone')} />
