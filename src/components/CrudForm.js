@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
-import dataApi from '../services/dataApi';
 import auth from '../services/auth';
+import dataApi from '../services/dataApi';
 
 export default function CrudForm() {
 
   const { register, handleSubmit } = useForm();
+
   const [token, setToken] = useState([]);
 
   useEffect(() => {
@@ -28,8 +29,8 @@ export default function CrudForm() {
       "c_rua": formData.rua,
       "c_senha": formData.senha
     });
-
-    dataApi.put('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/'+formData.email, 
+  
+    dataApi.put('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/' + formData.email,
       data,
       {
         headers: {
@@ -39,7 +40,7 @@ export default function CrudForm() {
       }
     );
   }
-
+  
   function update(formData, emailUsr) {
     const data = JSON.stringify({
       "c_cep": formData.cep,
@@ -55,8 +56,8 @@ export default function CrudForm() {
       "c_senha": formData.senha,
       "c_email": formData.email
     });
-
-    dataApi.patch('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/'+emailUsr, 
+  
+    dataApi.patch('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/' + emailUsr,
       data,
       {
         headers: {
@@ -66,9 +67,9 @@ export default function CrudForm() {
       }
     );
   }
-
+  
   function remove(emailUsr) {
-    dataApi.delete('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/'+emailUsr,
+    dataApi.delete('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/' + emailUsr,
       {
         headers: {
           'Authorization': 'Bearer ' + token,
@@ -77,9 +78,9 @@ export default function CrudForm() {
       }
     );
   }
-
+  
   function show(emailUsr) {
-    dataApi.get('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/'+emailUsr,
+    dataApi.get('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/' + emailUsr,
       {
         headers: {
           'Authorization': 'Bearer ' + token,
@@ -88,16 +89,14 @@ export default function CrudForm() {
       }
     ).then(res => {
       console.log(res.data);
-    });
+    });  
   }
 
-
   const onSubmit = (formData) => {
-
     //insert(formData);
     //update(formData, 'new@email');
     //remove('new@email');
-    show('alexandre.cardozo1@gmail.com');
+    //show('alexandre.cardozo1@gmail.com');
   }
 
   return (

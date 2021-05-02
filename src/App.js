@@ -12,7 +12,7 @@ function App() {
           component={LoginForm}
         />
         <Route 
-          path='/dados'
+          path='/cadastro'
           component={CrudForm}
         />
       </Switch>
@@ -22,7 +22,6 @@ function App() {
 
 export default App;
 
-
 /**
  * CORS SOLUTIONS 
  * 1
@@ -31,7 +30,6 @@ export default App;
  * Click OK. 
  * 
  * 2
- * Wrap the data api, using CORS on node.js backend
- * 
+ * Wrap the data api, using CORS on node.js backend * 
  * 
  */
