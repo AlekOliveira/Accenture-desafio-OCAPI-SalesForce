@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 function App() {
   const [email, setEmail] = useState('');
+  const [usr, setUsr] = useState(null);
 
   return (
     <BrowserRouter>
@@ -14,7 +15,8 @@ function App() {
           exact path='/'
           render={(props) => (
             <LoginForm {...props} 
-            setEmail={setEmail} />
+            setEmail={setEmail}
+            setUsr={setUsr} />
           )}
         />
         <Route 
@@ -29,7 +31,8 @@ function App() {
           render={(props) => (
             <CrudForm {...props} 
             newProfile={false}
-            email={email} />
+            email={email}
+            usr={usr} />
           )}
         />
       </Switch>

@@ -8,6 +8,7 @@ export default function LoginForm(props) {
   const { register, handleSubmit } = useForm();
   const [token, setToken] = useState([]);
   const setEmail = props.setEmail;
+  const setUsr = props.setUsr;
 
   useEffect(() => {
     auth.getToken().then(res => {
@@ -54,18 +55,18 @@ export default function LoginForm(props) {
         'Content-Type': 'application/json'
       }
     }).then(res => {
-      if(res.data.hits) {
+      if (res.data.hits) {
         setEmail(res.data.hits[0].key_value_string);
-        props.history.push('/perfil');     
+        setUsr(res.data.hits[0]);
+        props.history.push('/perfil');
       }
-      else
-      {
+      else {
         alert('Usuário ou senha inválidos!');
       }
     });
   }
 
-  const onSubmit = (formData) => {  
+  const onSubmit = (formData) => {
     validateUserLogin(formData);
   }
 
@@ -73,16 +74,27 @@ export default function LoginForm(props) {
     props.history.push('/cadastro');
   }
 
-  return (    
+  return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="text" placeholder="Email" name="email" {...register('email')} />
-        <input type="password" placeholder="Senha" name="senha" {...register('senha')} />
-        
-        <button type="submit">Login!</button>      
+        <p>Área exclusiva para login de revendedores</p>
+        <input
+          type="text"
+          placeholder="email@email.com"
+          name="email"
+          {...register('email')}
+        />
+        <input
+          type="password"
+          placeholder="Senha"
+          name="senha"
+          {...register('senha')}
+        />
+
+        <button type="submit">Acessar</button>
       </form>
-    
-      <button onClick={cadastrar}>Cadastre-se!</button>
+
+      <button onClick={cadastrar}>Quero ser um revendedor</button>
     </>
   );
 }
