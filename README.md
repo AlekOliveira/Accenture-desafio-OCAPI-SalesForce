@@ -1,4 +1,4 @@
-Este projeto contém duas branches, uma delas está estilizada.<br><br>
+
 
 
 -----Para o funcionamento correto deste exemplo o CORS deve ser desativado no navegador------- <br>
