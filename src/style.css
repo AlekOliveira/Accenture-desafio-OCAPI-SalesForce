@@ -1,0 +1,82 @@
+.login-l {
+  height: 100vh;
+  background-color: blue;
+  width: 70vw;
+  float: left;
+}
+
+.login-r {
+  height: 100vh;
+  background-color: rgba(240,240,240, 0.8);
+  width: 30vw;
+  float: right;
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
+}
+
+.login-image {  
+  background-image: url('./resources/images/frutas.jpg');      
+  background-repeat: no-repeat;     
+  background-position: center;     
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+}
+
+.crud-image {  
+  background: rgb(162,158,238);
+  background: linear-gradient(90deg, rgba(162,158,238,1) 8%, rgba(209,255,13,1) 25%, rgba(255,226,0,1) 53%, rgba(255,179,0,1) 74%, rgba(255,0,0,1) 100%);
+}
+
+.form-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center;
+  height: 50vh;
+  flex-wrap: wrap;  
+}
+
+.form-input {
+  width: 500px;
+  height: 50px;
+  margin: 20px;
+  border-radius: 10px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 900;
+}
+
+.form-button {
+  width: 300px;
+  height: 50px;
+  margin: 20px;
+  border-radius: 10px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 900;
+}
+
+.title {
+  font-size: 25px;
+  color: black;
+  font-weight: 900;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  margin: 10px;  
+}
+
+.title2 {
+  margin: 10px;
+  font-size: 18px;
+  color: black;
+  font-weight: 900;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;  
+}
+
+.myRadio { 
+  margin: 10px;
+}
+
+.login-text {
+  display:flex;
+  align-items:center;
+}
