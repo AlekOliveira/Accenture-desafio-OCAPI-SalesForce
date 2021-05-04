@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import auth from '../services/auth';
 import dataApi from '../services/dataApi';
+import '../style.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function CrudForm(props) {
 
@@ -167,11 +169,15 @@ export default function CrudForm(props) {
 
   return (
     <>
+      <div class="crud-image">   
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div id="infoPessoais">
-          <h3>1 - Informações pessoais</h3>
-          <label htmlFor="">Nome e Sobrenome</label><br />
+
+      <div class="row"> 
+        <div id="infoPessoais" class="col">
+          <h3 class="title">1 - Informações pessoais</h3>
+          <label class="title2" htmlFor="">Nome e Sobrenome</label><br />
           <input
+            class="form-input"
             {...register('nome')}
             required
             type="text"
@@ -182,8 +188,9 @@ export default function CrudForm(props) {
             
           /><br /><br />
 
-          <label htmlFor="">Celular</label><br />
+          <label class="title2" htmlFor="">Celular</label><br />
           <input
+            class="form-input"
             {...register('fone')}
             required
             type="text"
@@ -194,8 +201,9 @@ export default function CrudForm(props) {
             onChange={ (e) => setFone(e.target.value) }
           /><br /><br />
 
-          <label htmlFor="">CPF</label><br />
+          <label class="title2" htmlFor="">CPF</label><br />
           <input
+            class="form-input"
             {...register('cpf')}
             required
             type="text"
@@ -206,8 +214,9 @@ export default function CrudForm(props) {
             onChange={ (e) => setCpf(e.target.value) }
           /><br /><br />
 
-          <label htmlFor="">Nascimento</label><br />
+          <label class="title2" htmlFor="">Nascimento</label><br />
           <input
+            class="form-input"
             {...register('nascimento')}
             required
             type="text"
@@ -217,15 +226,16 @@ export default function CrudForm(props) {
             onChange={ (e) => setNascimento(e.target.value) }
           /><br /><br />
 
-          <div>
-            <label htmlFor="">Gênero</label><br />
-            <input {...register('genero')} checked={'Masculino' === genero} onChange={ (e) => setGenero(e.target.value) } required type="radio" value="Masculino" name="genero" /> Masculino
-            <input {...register('genero')} checked={'Feminino' === genero} onChange={ (e) => setGenero(e.target.value) } required type="radio" value="Feminino" name="genero" /> Feminino
-            <input {...register('genero')} checked={'Outro' === genero} onChange={ (e) => setGenero(e.target.value) } required type="radio" value="Outro" name="genero" /> Outro
-        </div><br /><br />
+          <div class="myRadio">
+            <label class="title2" htmlFor="">Gênero</label><br />
+            <input {...register('genero')} checked={'Masculino' === genero} onChange={ (e) => setGenero(e.target.value) } required type="radio" value="Masculino" name="genero" />Masculino
+            <input {...register('genero')} checked={'Feminino' === genero} onChange={ (e) => setGenero(e.target.value) } required type="radio" value="Feminino" name="genero" />Feminino
+            <input {...register('genero')} checked={'Outro' === genero} onChange={ (e) => setGenero(e.target.value) } required type="radio" value="Outro" name="genero" />Outro
+          </div>
 
-          <label htmlFor="">Email</label><br />
+          <label class="title2" htmlFor="">Email</label><br />
           <input
+            class="form-input"
             {...register('email')}
             required
             type="text"
@@ -236,8 +246,9 @@ export default function CrudForm(props) {
             onChange={ (e) => setEmail(e.target.value) }
           /><br /><br />
 
-          <label htmlFor="">Senha</label><br />
+          <label class="title2" htmlFor="">Senha</label><br />
           <input
+            class="form-input"
             {...register('senha')}
             required
             type="password"
@@ -248,10 +259,11 @@ export default function CrudForm(props) {
           /><br /><br />
         </div>
 
-        <div id="endereco">
-          <h3>2 - Endereço</h3>
-          <label htmlFor="">CEP</label><br />
+        <div id="endereco" class="col">
+          <h3 class="title">2 - Endereço</h3>
+          <label class="title2" htmlFor="">CEP</label><br />
           <input
+            class="form-input"
             {...register('cep')}
             required
             type="text"
@@ -262,8 +274,9 @@ export default function CrudForm(props) {
             onChange={ (e) => setCep(e.target.value) }
           /><br /><br />
 
-          <label htmlFor="">Rua</label><br />
+          <label class="title2" htmlFor="">Rua</label><br />
           <input
+            class="form-input"
             {...register('rua')}
             required
             type="text"
@@ -273,8 +286,9 @@ export default function CrudForm(props) {
             onChange={ (e) => setRua(e.target.value) }
           /><br /><br />
 
-          <label htmlFor="">Numero</label><br />
+          <label class="title2" htmlFor="">Numero</label><br />
           <input
+            class="form-input"
             {...register('numRua')}
             required
             type="text"
@@ -284,8 +298,9 @@ export default function CrudForm(props) {
             onChange={ (e) => setNumRua(e.target.value) }
           /><br /><br />
 
-          <label htmlFor="">Complemento</label><br />
+          <label class="title2" htmlFor="">Complemento</label><br />
           <input
+            class="form-input"
             {...register('complemento')}
             type="text"
             placeholder="(Opcional)"
@@ -296,30 +311,35 @@ export default function CrudForm(props) {
 
         </div>
 
-        <div id="sobreNos">
-          <h3>3 - Como ficou sabendo sobre nós?*</h3>
-          <div>
+        <div id="sobreNos" class="col">
+          <h3 class="title">3 - Como ficou sabendo sobre nós?*</h3>
+          <div class="myRadio">
             <input {...register('indicacao')} checked={'Por indicação de amigos ou conhecidos' === indicacao } onChange={ (e) => setIndicacao(e.target.value) } required type="radio" value="Por indicação de amigos ou conhecidos" name="indicacao" /> Por indicação de amigos ou conhecidos
+            <br/>
             <input {...register('indicacao')} checked={'Redes Sociais (Facebook, Instagram, etc.)' === indicacao } onChange={ (e) => setIndicacao(e.target.value) } required type="radio" value="Redes Sociais (Facebook, Instagram, etc.)" name="indicacao" /> Redes Sociais (Facebook, Instagram, etc.)
+            <br/>
             <input {...register('indicacao')} checked={'Recebi um e-mail' === indicacao } onChange={ (e) => setIndicacao(e.target.value) } required type="radio" value="Recebi um e-mail" name="indicacao" /> Recebi um e-mail
+            <br/>
             <input {...register('indicacao')} checked={'TV ou rádio' === indicacao } onChange={ (e) => setIndicacao(e.target.value) } required type="radio" value="TV ou rádio" name="indicacao" /> TV ou rádio
           </div>
         </div>
+      </div>
 
         {
           props.newProfile ?
-            <input id="btSubmit" type="submit" />
+            <input class="form-button" id="btSubmit" type="submit" />
             :
-            <button onClick={() => setOperacao('update')} type="submit">Atualizar</button>                         
+            <button class="form-button" onClick={() => setOperacao('update')} type="submit">Atualizar</button>                         
             
         }
       </form>
       {
         !props.newProfile ?
-        <button onClick={() => destroy(email)} >Excluir Conta</button>
+        <button class="form-button" onClick={() => destroy(email)} >Excluir Conta</button>
         :
         '' 
       }
+      </div>
       </>
   );
 }

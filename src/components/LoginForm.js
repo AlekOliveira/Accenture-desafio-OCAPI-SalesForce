@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import auth from '../services/auth';
 import dataApi from '../services/dataApi';
+import '../style.css';
 
 export default function LoginForm(props) {
 
@@ -76,25 +77,38 @@ export default function LoginForm(props) {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <p>Área exclusiva para login de revendedores</p>
-        <input
-          type="text"
-          placeholder="email@email.com"
-          name="email"
-          {...register('email')}
-        />
-        <input
-          type="password"
-          placeholder="Senha"
-          name="senha"
-          {...register('senha')}
-        />
+      <div class="login-image">
+        <div class="login-r">          
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div class="form-login">
+              <p class="title">Área exclusiva para login de revendedores</p>
+              <input
+                class="form-input"
+                type="text"
+                placeholder="email@email.com"
+                name="email"
+                {...register('email')}
+              /><br/>
+              <input
+                class="form-input"
+                type="password"
+                placeholder="Senha"
+                name="senha"
+                {...register('senha')}
+              />
+              <button 
+                class="form-input"
+                type="submit"
+                >Acessar
+              </button>
+              </div>
+          </form>
 
-        <button type="submit">Acessar</button>
-      </form>
-
-      <button onClick={cadastrar}>Quero ser um revendedor</button>
+          <button 
+            class="form-button"
+            onClick={cadastrar}>Quero ser um revendedor</button>
+        </div>
+      </div>     
     </>
   );
 }
