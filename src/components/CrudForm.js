@@ -8,37 +8,57 @@ export default function CrudForm(props) {
   const { register, handleSubmit } = useForm();
   const [token, setToken] = useState('');
   const [operacao, setOperacao] = useState('insert');
-  //const [usr, setUsr] = useState(null); 
+  
+  //######formStates######
+  const [cep, setCep] = useState('');
+  const [complemento, setComplemento] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [fone, setFone] = useState('');
+  const [genero, setGenero] = useState('');
+  const [indicacao, setIndicacao] = useState('');
+  const [nascimento, setNascimento] = useState('');
+  const [nome, setNome] = useState('');
+  const [numRua, setNumRua] = useState('');
+  const [rua, setRua] = useState('');
+  const [senha, setSenha] = useState('');
+  const [email, setEmail] = useState('');
+  //######formStates######
 
-  const email = props.email;
+  //const email = props.email;
   const usr = props.usr ? props.usr :
-    {
-      c_cep: "",
-      c_complemento: "",
-      c_cpf: "",
-      c_fone: "",
-      c_genero: "",
-      c_indicacao: "",
-      c_nascimento: "",
-      c_nome: "",
-      c_numRua: "",
-      c_rua: "",
-      c_senha: ""
-    };
-  
-  console.log(usr);
-  
+  {
+    c_cep: "",
+    c_complemento: "",
+    c_cpf: "",
+    c_fone: "",
+    c_genero: "",
+    c_indicacao: "",
+    c_nascimento: "",
+    c_nome: "",
+    c_numRua: "",
+    c_rua: "",
+    c_senha: "",
+    key_value_string: ""
+  };
 
   useEffect(() => {
     auth.getToken().then(res => {
       setToken((res.data.access_token));
     })
-    
-    //setUsr(props.usr);
+    setCep(usr.c_cep);
+    setComplemento(usr.c_complemento);
+    setCpf(usr.c_cpf);
+    setFone(usr.c_fone);
+    setGenero(usr.c_genero);
+    setIndicacao(usr.c_indicacao);
+    setNascimento(usr.c_nascimento);    
+    setNome(usr.c_nome);
+    setNumRua(usr.c_numRua);
+    setRua(usr.c_rua);
+    setSenha(usr.c_senha);
+    setEmail(usr.key_value_string);
   }, [])
-
-  console.log(usr);
-
+ 
   function insert(formData) {
     const data = JSON.stringify({
       "c_cep": formData.cep,
@@ -47,7 +67,7 @@ export default function CrudForm(props) {
       "c_fone": formData.fone,
       "c_genero": formData.genero,
       "c_indicacao": formData.indicacao,
-      "c_nascimento": formData.nascimento.split('/').reverse().join('-'),
+      "c_nascimento": formData.nascimento,
       "c_nome": formData.nome,
       "c_numRua": formData.numRua,
       "c_rua": formData.rua,
@@ -70,20 +90,21 @@ export default function CrudForm(props) {
   }
 
   function update(formData, emailUsr) {
-    const data = JSON.stringify({
-      "c_cep": formData.cep,
-      "c_complemento": formData.complemento,
-      "c_cpf": formData.cpf,
-      "c_fone": formData.fone,
-      "c_genero": formData.genero,
-      "c_indicacao": formData.indicacao,
-      "c_nascimento": formData.nascimento.split('/').reverse().join('-'),
-      "c_nome": formData.nome,
-      "c_numRua": formData.numRua,
-      "c_rua": formData.rua,
-      "c_senha": formData.senha,
-      "c_email": formData.email
-    });
+    const data = {
+      c_cep: cep,
+      c_complemento: complemento,
+      c_cpf: cpf,
+      c_fone: fone,
+      c_genero: genero,
+      c_indicacao: indicacao,
+      c_nascimento: nascimento,
+      c_nome: nome,
+      c_numRua: numRua,
+      c_rua: rua,
+      c_senha: senha,
+      c_email: email
+    };
+    console.log(data);
 
     dataApi.patch('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/' + emailUsr,
       data,
@@ -100,17 +121,18 @@ export default function CrudForm(props) {
     });
   }
 
-  function destroy(emailUsr) {
+  function destroy(email) {
+    console.log('estou em destroy ' + email + token);
     if (window.confirm("Tem certeza que deseja excluir sua conta?")) {
-      dataApi.delete('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/' + emailUsr,
+      dataApi.delete('/dw/data/v21_3/custom_objects/ObjDesafioAlexandre/' + email,
         {
           headers: {
-            'Authorization': 'Bearrer ' + token,
+            'Authorization': 'Bearer ' +token,
             'Content-Type': 'application/json'
           }
         }
       ).then(res => {
-        alert('Conta excluida, você será redirecionado!');
+        alert('Conta excluida!');
       }).catch(err => {
         alert('Erro inesperado: ' + err);
       });
@@ -129,30 +151,36 @@ export default function CrudForm(props) {
       }
     ).then(res => {
       console.log(res.data);
-    });  
-  }  
+    });
+  }
 
   const onSubmit = (formData) => {
+    //for insert and updates
     switch (operacao) {
       case 'insert':
         insert(formData);
         break;
       case 'update':
         update(formData, email);
-        break;
-      case 'destroy':
-        destroy(email);
     }
   }
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-
         <div id="infoPessoais">
           <h3>1 - Informações pessoais</h3>
           <label htmlFor="">Nome e Sobrenome</label><br />
-          <input {...register('nome')} required type="text" placeholder="Nome e sobrenome*" name="nome" value={usr.c_nome}/><br /><br />
+          <input
+            {...register('nome')}
+            required
+            type="text"
+            placeholder="Nome e sobrenome*"
+            name="nome"
+            value={nome}
+            onChange={ (e) => setNome(e.target.value) }
+            
+          /><br /><br />
 
           <label htmlFor="">Celular</label><br />
           <input
@@ -162,6 +190,8 @@ export default function CrudForm(props) {
             placeholder="Com ddd sem espaços"
             name="fone"
             pattern="([1-9]{2}[0-9]{9})"
+            value={fone}
+            onChange={ (e) => setFone(e.target.value) }
           /><br /><br />
 
           <label htmlFor="">CPF</label><br />
@@ -172,16 +202,26 @@ export default function CrudForm(props) {
             placeholder="xxx.xxx.xxx-xx"
             name="cpf"
             pattern="([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})"
+            value={cpf}
+            onChange={ (e) => setCpf(e.target.value) }
           /><br /><br />
 
           <label htmlFor="">Nascimento</label><br />
-          <input {...register('nascimento')} required type="date" placeholder="Data de nascimento*" name="nascimento" /><br /><br />
+          <input
+            {...register('nascimento')}
+            required
+            type="text"
+            placeholder="Data de nascimento*"
+            name="nascimento"
+            value={nascimento}
+            onChange={ (e) => setNascimento(e.target.value) }
+          /><br /><br />
 
           <div>
             <label htmlFor="">Gênero</label><br />
-            <input {...register('genero')} required type="radio" value="Masculino" name="genero" /> Masculino
-          <input {...register('genero')} required type="radio" value="Feminino" name="genero" /> Feminino
-          <input {...register('genero')} required type="radio" value="Outro" name="genero" /> Outro
+            <input {...register('genero')} checked={'Masculino' === genero} onChange={ (e) => setGenero(e.target.value) } required type="radio" value="Masculino" name="genero" /> Masculino
+            <input {...register('genero')} checked={'Feminino' === genero} onChange={ (e) => setGenero(e.target.value) } required type="radio" value="Feminino" name="genero" /> Feminino
+            <input {...register('genero')} checked={'Outro' === genero} onChange={ (e) => setGenero(e.target.value) } required type="radio" value="Outro" name="genero" /> Outro
         </div><br /><br />
 
           <label htmlFor="">Email</label><br />
@@ -192,10 +232,20 @@ export default function CrudForm(props) {
             placeholder="email@email.com"
             name="email"
             pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
+            value={email}
+            onChange={ (e) => setEmail(e.target.value) }
           /><br /><br />
 
           <label htmlFor="">Senha</label><br />
-          <input {...register('senha')} required type="password" placeholder="Senha*" name="senha" /><br /><br />
+          <input
+            {...register('senha')}
+            required
+            type="password"
+            placeholder="Senha*"
+            name="senha"
+            value={senha}
+            onChange={ (e) => setSenha(e.target.value) }
+          /><br /><br />
         </div>
 
         <div id="endereco">
@@ -208,26 +258,51 @@ export default function CrudForm(props) {
             placeholder="xxxxx-xxx"
             name="cep"
             pattern="^\d{5}[\-]?\d{3}$"
+            value={cep}
+            onChange={ (e) => setCep(e.target.value) }
           /><br /><br />
 
           <label htmlFor="">Rua</label><br />
-          <input {...register('rua')} required type="text" placeholder="Rua*" name="rua" /><br /><br />
+          <input
+            {...register('rua')}
+            required
+            type="text"
+            placeholder="Rua*"
+            name="rua"
+            value={rua}
+            onChange={ (e) => setRua(e.target.value) }
+          /><br /><br />
 
           <label htmlFor="">Numero</label><br />
-          <input {...register('numRua')} required type="text" placeholder="Numero*" name="numRua" /><br /><br />
+          <input
+            {...register('numRua')}
+            required
+            type="text"
+            placeholder="Numero*"
+            name="numRua"
+            value={numRua}
+            onChange={ (e) => setNumRua(e.target.value) }
+          /><br /><br />
 
           <label htmlFor="">Complemento</label><br />
-          <input {...register('complemento')} type="text" placeholder="(Opcional)" name="complemento" /><br /><br />
+          <input
+            {...register('complemento')}
+            type="text"
+            placeholder="(Opcional)"
+            name="complemento"
+            value={complemento}
+            onChange={ (e) => setComplemento(e.target.value) }
+          /><br /><br />
 
         </div>
 
         <div id="sobreNos">
           <h3>3 - Como ficou sabendo sobre nós?*</h3>
           <div>
-            <input {...register('indicacao')} required type="radio" value="Por indicação de amigos ou conhecidos" name="indicacao" /> Por indicação de amigos ou conhecidos
-            <input {...register('indicacao')} required type="radio" value="Redes Sociais (Facebook, Instagram, etc.)" name="indicacao" /> Redes Sociais (Facebook, Instagram, etc.)
-            <input {...register('indicacao')} required type="radio" value="Recebi um e-mail" name="indicacao" /> Recebi um e-mail
-            <input {...register('indicacao')} required type="radio" value="TV ou rádio" name="indicacao" /> TV ou rádio
+            <input {...register('indicacao')} checked={'Por indicação de amigos ou conhecidos' === indicacao } onChange={ (e) => setIndicacao(e.target.value) } required type="radio" value="Por indicação de amigos ou conhecidos" name="indicacao" /> Por indicação de amigos ou conhecidos
+            <input {...register('indicacao')} checked={'Redes Sociais (Facebook, Instagram, etc.)' === indicacao } onChange={ (e) => setIndicacao(e.target.value) } required type="radio" value="Redes Sociais (Facebook, Instagram, etc.)" name="indicacao" /> Redes Sociais (Facebook, Instagram, etc.)
+            <input {...register('indicacao')} checked={'Recebi um e-mail' === indicacao } onChange={ (e) => setIndicacao(e.target.value) } required type="radio" value="Recebi um e-mail" name="indicacao" /> Recebi um e-mail
+            <input {...register('indicacao')} checked={'TV ou rádio' === indicacao } onChange={ (e) => setIndicacao(e.target.value) } required type="radio" value="TV ou rádio" name="indicacao" /> TV ou rádio
           </div>
         </div>
 
@@ -235,14 +310,16 @@ export default function CrudForm(props) {
           props.newProfile ?
             <input id="btSubmit" type="submit" />
             :
-            <div>
-              <button onClick={() => setOperacao('update')} type="submit">Atualizar</button>
-              <button onClick={() => setOperacao('destroy')} type="submit">Excluir Conta</button>
-              {/* trocar o destrou pra uma function evitando submit */}
+            <button onClick={() => setOperacao('update')} type="submit">Atualizar</button>                         
             
-            </div>
         }
       </form>
-    </>
+      {
+        !props.newProfile ?
+        <button onClick={() => destroy(email)} >Excluir Conta</button>
+        :
+        '' 
+      }
+      </>
   );
 }
