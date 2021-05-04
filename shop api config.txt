@@ -1,0 +1,66 @@
+{
+	"_v": "18.1",
+	"clients": [
+		{
+			"client_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+			"resources": [
+				{
+					"methods": [
+						"get"
+					],
+					"read_attributes": "(**)",
+					"write_attributes": "(**)",
+					"resource_id": "/categories/{id}"
+				},
+				{
+					"methods": [
+						"get"
+					],
+					"read_attributes": "(**)",
+					"write_attributes": "(**)",
+					"resource_id": "/products/{id}"
+				},
+				{
+					"methods": [
+						"get"
+					],
+					"read_attributes": "(**)",
+					"write_attributes": "(**)",
+					"resource_id": "/orders/{order_no}"
+				},
+				{
+					"methods": [
+						"post"
+					],
+					"read_attributes": "(**)",
+					"write_attributes": "(**)",
+					"resource_id": "/customers/auth"
+				},
+				{
+					"methods": [
+						"patch"
+					],
+					"read_attributes": "(**)",
+					"write_attributes": "(**)",
+					"resource_id": "/orders/{order_no}"
+				},
+				{
+					"methods": [
+						"get"
+					],
+					"read_attributes": "(**)",
+					"write_attributes": "(**)",
+					"resource_id": "/customers/{id}"
+				},
+				{
+					"methods": [
+						"post"
+					],
+					"read_attributes": "(**)",
+					"write_attributes": "(**)",
+					"resource_id": "/order_search"
+				}
+			]
+		}
+	]
+}
