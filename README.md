@@ -14,4 +14,4 @@
 -----Configurações da sandbox---<br>
 Caso necessite alterar as permissões de acesso da data api<br>
 vá em Administration >  Site Development >  Open Commerce API Settings<br>
-troque o Select Type para 'Data' e cole todo o o cnteúdo que está dentro do arquivo 'data api config' deste repositório<br>
+troque o Select Type para 'Data' e cole todo o o conteúdo que está dentro do arquivo 'data api config' deste repositório<br>
